@@ -1,0 +1,41 @@
+{
+  "name": "ha-telegrambot",
+  "version": "0.0.1",
+  "description": "BolverBlitz LED-HausBot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "LED",
+    "RGB",
+    "Homeautomation"
+  ],
+  "license": "AGPL-3.0",
+  "author": "BolverBlitz",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "express-csp-header": "^4.1.0",
+    "express-rate-limit": "^5.2.6",
+    "express-useragent": "^1.0.15",
+    "fs": "0.0.1-security",
+    "helmet": "^4.1.0",
+    "joi": "^17.4.0",
+    "morgan": "^1.10.0",
+    "new-i18n": "^3.0.0-2",
+    "pg": "^8.7.1",
+    "randomstring": "^1.2.1",
+    "sanitize-html": "^2.4.0",
+    "telebot": "^1.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^2.0.4"
+  }
+}
