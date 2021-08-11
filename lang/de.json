@@ -1,3 +1,25 @@
 {
-    "WellcomeMSG": "Marc HA Bot"
+    "WellcomeMSG": "Marc HA Bot",
+    "Hauptmenu": {
+        "Text": "Hallo {{Username}}, wähle was du einstellen möchtest",
+        "Knöpfe": {
+            "Plugs": "Steckdosen",
+            "Controler": "RGB",
+            "Stats": "Status"
+        }
+    },
+    "plugscallback": {
+        "Text": "Wähle eine der Steckdosen",
+        "Back": "⏪ Zurück"
+    },
+    "PlugMenü": {
+        "Text": "Verwaltung von {{Steckdose}}\n\nWatt: {{WATT}} W\nKilowatt: {{Kilowatt}} KwH",
+        "true": "EIN",
+        "false": "AUS",
+        "Not_allowed": "Das Schalten dieser Steckdose ist nicht gestattet!",
+        "Back": "⏪ Zurück"
+    },
+    "Error": {
+        "NotPrivate": "Dieser Befehl funktioniert nur im privaten Chat mit dem Bot."
+    }
 }
