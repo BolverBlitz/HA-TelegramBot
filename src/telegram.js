@@ -1,12 +1,14 @@
 const util = require('util')
 const DB = require('../lib/db/postgres');
 const Tasmota = require('../lib/plug_ctl/tasmota');
+const pm2ctl = require('../lib/pm2_ctl/pm2');
 const path = require('path');
 const reqPath = path.join(__dirname, '../');
 const { default: i18n } = require('new-i18n');
 const newi18n = new i18n({ folder: path.join(reqPath, process.env.Sprache), languages: ['de'], fallback: 'de' })
 
 console.log("All Systems Running!")
+pm2ctl.GetPM2IDByName(['HA-Bot', 'RGB-Proxy']);
 
 const Telebot = require('telebot');
 const bot = new Telebot({

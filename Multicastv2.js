@@ -1,5 +1,5 @@
 var PORT = 1233;
- var HOST = '192.168.65.158';
+ var HOST = '192.168.0.80';
  
  var PORTSend = 1234
  var HOSTSend = '192.168.0.210'
