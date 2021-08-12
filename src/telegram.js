@@ -8,7 +8,6 @@ const { default: i18n } = require('new-i18n');
 const newi18n = new i18n({ folder: path.join(reqPath, process.env.Sprache), languages: ['de'], fallback: 'de' })
 
 console.log("All Systems Running!")
-pm2ctl.GetPM2IDByName(['HA-Bot', 'RGB-Proxy']);
 
 const Telebot = require('telebot');
 const bot = new Telebot({
