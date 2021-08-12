@@ -19,6 +19,12 @@
         "Not_allowed": "Das Schalten dieser Steckdose ist nicht gestattet!",
         "Back": "⏪ Zurück"
     },
+    "stats": {
+        "Text": "Systemsatus der Prozesse",
+        "Status": "{{Name}} (V{{Version}}) ist {{Status}} seid {{Uptime}}\nCPU: {{CPU_P}}% | RAM: {{RAM}}MB\nRunning: NodeJS {{NODERV}}@{{OS}}",
+        "Reload": "Aktualisieren",
+        "Back": "⏪ Zurück"
+    },
     "Error": {
         "NotPrivate": "Dieser Befehl funktioniert nur im privaten Chat mit dem Bot."
     }

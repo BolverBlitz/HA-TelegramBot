@@ -16,6 +16,17 @@ const bot = new Telebot({
         usePlugins: ['commandButton', 'askUser']
 });
 
+function TimeFormat(seconds){
+    function pad(s){
+      return (s < 10 ? '0' : '') + s;
+    }
+    var hours = Math.floor(seconds / (60*60));
+    var minutes = Math.floor(seconds % (60*60) / 60);
+    var seconds = Math.floor(seconds % 60);
+  
+    return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+  }
+
 bot.on(/^\/hauptmenu/i, (msg) => {
     let private;
     if(msg.chat){
@@ -92,10 +103,47 @@ bot.on(/^\/maincallback/i, (msg) => {
             bot.editMessageText(
                 {chatId: chatId, messageId: messageId}, Message,
                 {parseMode: 'html', replyMarkup}
-            ).catch(error => console.log('Error:', error));
+            )
         }
+});
 
+bot.on(/^\/stats/i, (msg) => {
+    //THIS WILL ONLY WORK WHEN CALLED BY INLINE FUNCTION
+    if ('inline_message_id' in msg) {	
+		var inlineId = msg.inline_message_id;
+	}else{
+		var chatId = msg.message.chat.id;
+		var messageId = msg.message.message_id;
+	}
 
+    let replyMarkup = bot.inlineKeyboard([
+        [
+            bot.inlineButton(newi18n.translate('de', 'stats.Reload'), {callback: `/stats`}),
+        ],
+        [
+            bot.inlineButton(newi18n.translate('de', 'stats.Back'), {callback: `/maincallback`}),
+        ]
+    ]);
+
+        let Message = [];
+        Message.push(newi18n.translate('de', 'stats.Text'));
+
+        pm2ctl.GetEveryStatus(['HA-Bot','RGB-Proxy']).then(function(Prosess_data) {
+            Prosess_data.map(App => {
+                Message.push(newi18n.translate('de', 'stats.Status', {Name: App.name, Version: App.pm2_env.version, Status: App.pm2_env.status, Uptime: `${TimeFormat(((new Date().getTime() - App.pm2_env.pm_uptime)/1000).toFixed(0))}`, CPU_P: App.monit.cpu, RAM: (App.monit.memory/1048576).toFixed(2), NODERV: App.pm2_env.node_version, OS: App.pm2_env.OS}));
+            })
+            if ('inline_message_id' in msg) {
+                bot.editMessageText(
+                    {inlineMsgId: inlineId}, Message.join("\n\n"),
+                    {parseMode: 'html', replyMarkup}
+                ).catch(error => console.log('Error:', error));
+            }else{
+                bot.editMessageText(
+                    {chatId: chatId, messageId: messageId}, Message.join("\n\n"),
+                    {parseMode: 'html', replyMarkup}
+                ).catch(error => console.log('Error:', error));
+            }
+        }).catch(error => console.log('Error:', error));
 });
 
 bot.on(/^\/plugscallback/i, (msg) => {
