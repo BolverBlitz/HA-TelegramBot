@@ -16,17 +16,6 @@ const bot = new Telebot({
         usePlugins: ['commandButton', 'askUser']
 });
 
-function TimeFormat(seconds){
-    function pad(s){
-      return (s < 10 ? '0' : '') + s;
-    }
-    var hours = Math.floor(seconds / (60*60));
-    var minutes = Math.floor(seconds % (60*60) / 60);
-    var seconds = Math.floor(seconds % 60);
-  
-    return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
-  }
-
 bot.on(/^\/hauptmenu/i, (msg) => {
     let private;
     if(msg.chat){
@@ -192,6 +181,50 @@ bot.on(/^\/plugscallback/i, (msg) => {
     });
 });
 
+bot.on(/^\/controler/i, (msg) => {
+    //THIS WILL ONLY WORK WHEN CALLED BY INLINE FUNCTION
+    if ('inline_message_id' in msg) {	
+		var inlineId = msg.inline_message_id;
+	}else{
+		var chatId = msg.message.chat.id;
+		var messageId = msg.message.message_id;
+	}
+    let KeyboardArray = []
+
+    DB.get.controler.All().then(function(AllControlers) {
+        let Array = [];
+        let count = 0;
+        AllControlers.map((Controler, i) => {
+            count++
+            Array.push(bot.inlineButton(`${Controler.name} - ${Controler.mode} - ${BoolToString(Controler.state)}`, {callback: `Plugs_Menu_${Controler.controlerid}`}))
+
+            if(count > 0 || AllControlers.lenth-1 > i){
+                KeyboardArray.push(Array);
+                Array = [];
+                count = 0
+            }
+        })
+
+        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Back'), {callback: '/maincallback'})])
+
+        let replyMarkup = bot.inlineKeyboard(KeyboardArray);
+
+        let Message = newi18n.translate('de', 'controler.Text')
+
+        if ('inline_message_id' in msg) {
+            bot.editMessageText(
+                {inlineMsgId: inlineId}, Message,
+                {parseMode: 'html', replyMarkup}
+            ).catch(error => console.log('Error:', error));
+        }else{
+            bot.editMessageText(
+                {chatId: chatId, messageId: messageId}, Message,
+                {parseMode: 'html', replyMarkup}
+            ).catch(error => console.log('Error:', error));
+        }
+    });
+});
+
 /* -- Handle Bot -- */
 
 bot.start();
@@ -288,3 +321,29 @@ bot.on('callbackQuery', (msg) => {
         }
     }
 });
+
+/* Functions */
+
+/**
+ * This function will return a timestring based on unix time
+ * @param {number} seconds
+ * @returns {String} Time
+ */
+function TimeFormat(seconds){
+    function pad(s){
+      return (s < 10 ? '0' : '') + s;
+    }
+    var hours = Math.floor(seconds / (60*60));
+    var minutes = Math.floor(seconds % (60*60) / 60);
+    var seconds = Math.floor(seconds % 60);
+  
+    return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+}
+/**
+ * This function will return a string of the plug State based on input
+ * @param {boolean} boolean
+ * @returns {String} String
+ */
+function BoolToString(boolean){
+    return newi18n.translate('de', `Transform.${boolean}`)
+}

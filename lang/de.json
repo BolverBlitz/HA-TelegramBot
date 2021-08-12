@@ -19,11 +19,19 @@
         "Not_allowed": "Das Schalten dieser Steckdose ist nicht gestattet!",
         "Back": "⏪ Zurück"
     },
+    "controler": {
+        "Text": "Verwaltung der RGB Controler, bitte wähle oben einen oder mehrere Conrtoler und ändere dann die EInstellungen.",
+        "Back": "⏪ Zurück"
+    },
     "stats": {
         "Text": "Systemsatus der Prozesse",
         "Status": "{{Name}} (V{{Version}}) ist {{Status}} seid {{Uptime}}\nCPU: {{CPU_P}}% | RAM: {{RAM}}MB\nRunning: NodeJS {{NODERV}}@{{OS}}",
         "Reload": "Aktualisieren",
         "Back": "⏪ Zurück"
+    },
+    "Transform": {
+        "true": "EIN",
+        "false": "AUS"
     },
     "Error": {
         "NotPrivate": "Dieser Befehl funktioniert nur im privaten Chat mit dem Bot."
