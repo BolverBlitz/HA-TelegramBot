@@ -163,7 +163,6 @@ bot.on(/^\/plugscallback/i, (msg) => {
 
         let replyMarkup = bot.inlineKeyboard(KeyboardArray);
 
-        //console.log(util.inspect(replyMarkup, false, null, true /* enable colors */))
 
         let Message = newi18n.translate('de', 'plugscallback.Text')
 
@@ -196,7 +195,7 @@ bot.on(/^\/controler/i, (msg) => {
         let count = 0;
         AllControlers.map((Controler, i) => {
             count++
-            Array.push(bot.inlineButton(`${Controler.name} - ${Controler.mode} - ${BoolToString(Controler.state)}`, {callback: `Plugs_Menu_${Controler.controlerid}`}))
+            Array.push(bot.inlineButton(`❌ ${Controler.name} - ${Controler.mode} - ${BoolToString(Controler.state)}`, {callback: `Controler_Button_${Controler.controlerid}_0`}))
 
             if(count > 0 || AllControlers.lenth-1 > i){
                 KeyboardArray.push(Array);
@@ -317,6 +316,26 @@ bot.on('callbackQuery', (msg) => {
                         });
                     }
                 });
+            }
+        }
+
+        if(data[0] === "Controler"){
+            if(data[1] === "Button"){
+                let NewConrtolerButtonSelectArray = [];
+                msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
+                    let callback_data = ButtonArray[0].callback_data.split("_");
+                    if(callback_data[0] === "Controler" || callback_data[1] === "Button"){
+                        if(callback_data[2] === data[2]){
+                            if(callback_data[3] === "1"){
+                                callback_data[3] = "0";
+                            }else{
+                                callback_data[3] = "1";
+                            }
+                        }
+                        NewConrtolerButtonSelectArray.push(callback_data);
+                    }
+                });
+                console.log(NewConrtolerButtonSelectArray)
             }
         }
     }
