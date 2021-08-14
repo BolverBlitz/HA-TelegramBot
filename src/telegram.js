@@ -202,10 +202,11 @@ bot.on(/^\/controler/i, (msg) => {
                 Array = [];
                 count = 0
             }
-        })
+        });
 
-        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Back'), {callback: '/maincallback'})])
-
+        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Mode.RGB'), {callback: 'Controler_Modus_RGB'})])
+        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_1'})],[bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_2'})],[bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_3'})])
+        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Back'), {callback: '/maincallback'}), bot.inlineButton(newi18n.translate('de', 'controler.Save'), {callback: 'Controler_Save'})])
         let replyMarkup = bot.inlineKeyboard(KeyboardArray);
 
         let Message = newi18n.translate('de', 'controler.Text')
@@ -321,21 +322,65 @@ bot.on('callbackQuery', (msg) => {
 
         if(data[0] === "Controler"){
             if(data[1] === "Button"){
-                let NewConrtolerButtonSelectArray = [];
                 msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
                     let callback_data = ButtonArray[0].callback_data.split("_");
-                    if(callback_data[0] === "Controler" || callback_data[1] === "Button"){
+                    if(callback_data[0] === "Controler" && callback_data[1] === "Button"){
                         if(callback_data[2] === data[2]){
                             if(callback_data[3] === "1"){
-                                callback_data[3] = "0";
+                                msg.message.reply_markup.inline_keyboard[i][0].callback_data = `${callback_data[0]}_${callback_data[1]}_${callback_data[2]}_0`
+                                let Text = msg.message.reply_markup.inline_keyboard[i][0].text.replace("✅", "");
+                                msg.message.reply_markup.inline_keyboard[i][0].text = `❌${Text}`;
                             }else{
-                                callback_data[3] = "1";
+                                msg.message.reply_markup.inline_keyboard[i][0].callback_data = `${callback_data[0]}_${callback_data[1]}_${callback_data[2]}_1`
+                                let Text = msg.message.reply_markup.inline_keyboard[i][0].text.replace("❌", "");
+                                msg.message.reply_markup.inline_keyboard[i][0].text = `✅${Text}`;
                             }
                         }
-                        NewConrtolerButtonSelectArray.push(callback_data);
                     }
                 });
-                console.log(NewConrtolerButtonSelectArray)
+                let Message = msg.message.text;
+                let replyMarkup = bot.inlineKeyboard(msg.message.reply_markup.inline_keyboard)
+                if ('inline_message_id' in msg) {
+                    bot.editMessageText(
+                        {inlineMsgId: inlineId}, Message,
+                        {parseMode: 'html', replyMarkup}
+                    ).catch(error => console.log('Error:', error));
+                }else{
+                    bot.editMessageText(
+                        {chatId: chatId, messageId: messageId}, Message,
+                        {parseMode: 'html', replyMarkup}
+                    ).catch(error => console.log('Error:', error));
+                }
+            }
+
+            if(data[1] === "Modus"){
+                let AvaibleModes = ['RGB','Static','White'];
+                let NewPointer = AvaibleModes.indexOf(data[2]) + 1
+                if(NewPointer >= AvaibleModes.length){
+                    NewPointer = 0
+                }
+
+                msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
+                    let callback_data = ButtonArray[0].callback_data.split("_");
+                    if(callback_data[0] === "Controler" && callback_data[1] === "Modus"){
+                        msg.message.reply_markup.inline_keyboard[i][0].callback_data = `Controler_Modus_${AvaibleModes[NewPointer]}`
+                        let Text = newi18n.translate('de', `controler.Mode.${AvaibleModes[NewPointer]}`)
+                        msg.message.reply_markup.inline_keyboard[i][0].text = `${Text}`;
+                    }
+                });
+                let Message = msg.message.text;
+                let replyMarkup = bot.inlineKeyboard(msg.message.reply_markup.inline_keyboard)
+                if ('inline_message_id' in msg) {
+                    bot.editMessageText(
+                        {inlineMsgId: inlineId}, Message,
+                        {parseMode: 'html', replyMarkup}
+                    ).catch(error => console.log('Error:', error));
+                }else{
+                    bot.editMessageText(
+                        {chatId: chatId, messageId: messageId}, Message,
+                        {parseMode: 'html', replyMarkup}
+                    ).catch(error => console.log('Error:', error));
+                }
             }
         }
     }

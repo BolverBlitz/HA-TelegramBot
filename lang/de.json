@@ -21,6 +21,13 @@
     },
     "controler": {
         "Text": "Verwaltung der RGB Controler, bitte wähle oben einen oder mehrere Conrtoler und ändere dann die EInstellungen.",
+        "Mode": {
+            "RGB": "Modus: Visulizer",
+            "Static": "Modus: Statisches RGB",
+            "White": "Modus: Beleuchtung Weiß"
+        },
+        "Platzhalter": "‎",
+        "Save": "Übernehmen",
         "Back": "⏪ Zurück"
     },
     "stats": {
