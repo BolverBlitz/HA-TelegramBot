@@ -205,7 +205,9 @@ bot.on(/^\/controler/i, (msg) => {
         });
 
         KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Mode.RGB'), {callback: 'Controler_Modus_RGB'})])
-        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_1'})],[bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_2'})],[bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_3'})])
+        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_1'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_1'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_1'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_1'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_1'})])
+        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_2'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_2'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_2'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_2'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_2'})])
+        KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_3'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_3'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_3'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_3'}),bot.inlineButton(newi18n.translate('de', 'controler.Platzhalter'), {callback: 'Controler_Platzhalter_3'})])
         KeyboardArray.push([bot.inlineButton(newi18n.translate('de', 'controler.Back'), {callback: '/maincallback'}), bot.inlineButton(newi18n.translate('de', 'controler.Save'), {callback: 'Controler_Save'})])
         let replyMarkup = bot.inlineKeyboard(KeyboardArray);
 
@@ -367,7 +369,147 @@ bot.on('callbackQuery', (msg) => {
                         let Text = newi18n.translate('de', `controler.Mode.${AvaibleModes[NewPointer]}`)
                         msg.message.reply_markup.inline_keyboard[i][0].text = `${Text}`;
                     }
+
+                    if(AvaibleModes[NewPointer] === "RGB"){
+                        if(callback_data[0] === "Controler" && callback_data[1] === "Platzhalter"){
+                            if(callback_data[2] === "1"){
+                                for (let y = 0; y < msg.message.reply_markup.inline_keyboard[i].length; y++) {
+                                    msg.message.reply_markup.inline_keyboard[i][y].callback_data = `Controler_Platzhalter_1`
+                                    msg.message.reply_markup.inline_keyboard[i][y].text = newi18n.translate('de', `controler.Platzhalter`);
+                                }
+                            }
+                            if(callback_data[2] === "2"){
+                                for (let y = 0; y < msg.message.reply_markup.inline_keyboard[i].length; y++) {
+                                    msg.message.reply_markup.inline_keyboard[i][y].callback_data = `Controler_Platzhalter_2`
+                                    msg.message.reply_markup.inline_keyboard[i][y].text = newi18n.translate('de', `controler.Platzhalter`);
+                                }
+                            }
+                            if(callback_data[2] === "3"){
+                                for (let y = 0; y < msg.message.reply_markup.inline_keyboard[i].length; y++) {
+                                    msg.message.reply_markup.inline_keyboard[i][y].callback_data = `Controler_Platzhalter_3`
+                                    msg.message.reply_markup.inline_keyboard[i][y].text = newi18n.translate('de', `controler.Platzhalter`);
+                                }
+                            }
+                        }
+                    }
+                    if(AvaibleModes[NewPointer] === "Static"){
+                        if(callback_data[0] === "Controler" && callback_data[1] === "Platzhalter"){
+                            if(callback_data[2] === "1"){
+                                msg.message.reply_markup.inline_keyboard[i][0].callback_data = `Controler_Platzhalter_1_Add_BigPlus`
+                                msg.message.reply_markup.inline_keyboard[i][0].text = newi18n.translate('de', `controler.Math.BigPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][1].callback_data = `Controler_Platzhalter_1_Add_SmallPlus`
+                                msg.message.reply_markup.inline_keyboard[i][1].text = newi18n.translate('de', `controler.Math.SmallPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `Controler_Platzhalter_1_Static_0`
+                                let Text = newi18n.translate('de', `controler.Static.R`)
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${Text} 0`;
+                                msg.message.reply_markup.inline_keyboard[i][3].callback_data = `Controler_Platzhalter_1_Add_SmallMinus`
+                                msg.message.reply_markup.inline_keyboard[i][3].text = newi18n.translate('de', `controler.Math.SmallMinus`)
+                                msg.message.reply_markup.inline_keyboard[i][4].callback_data = `Controler_Platzhalter_1_Add_BigMinus`
+                                msg.message.reply_markup.inline_keyboard[i][4].text = newi18n.translate('de', `controler.Math.BigMinus`)
+                            }
+                            if(callback_data[2] === "2"){
+                                msg.message.reply_markup.inline_keyboard[i][0].callback_data = `Controler_Platzhalter_2_Add_BigPlus`
+                                msg.message.reply_markup.inline_keyboard[i][0].text = newi18n.translate('de', `controler.Math.BigPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][1].callback_data = `Controler_Platzhalter_2_Add_SmallPlus`
+                                msg.message.reply_markup.inline_keyboard[i][1].text = newi18n.translate('de', `controler.Math.SmallPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `Controler_Platzhalter_2_Static_0`
+                                let Text = newi18n.translate('de', `controler.Static.G`)
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${Text} 0`;
+                                msg.message.reply_markup.inline_keyboard[i][3].callback_data = `Controler_Platzhalter_2_Add_SmallMinus`
+                                msg.message.reply_markup.inline_keyboard[i][3].text = newi18n.translate('de', `controler.Math.SmallMinus`)
+                                msg.message.reply_markup.inline_keyboard[i][4].callback_data = `Controler_Platzhalter_2_Add_BigMinus`
+                                msg.message.reply_markup.inline_keyboard[i][4].text = newi18n.translate('de', `controler.Math.BigMinus`)
+                            }
+                            if(callback_data[2] === "3"){
+                                msg.message.reply_markup.inline_keyboard[i][0].callback_data = `Controler_Platzhalter_3_Add_BigPlus`
+                                msg.message.reply_markup.inline_keyboard[i][0].text = newi18n.translate('de', `controler.Math.BigPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][1].callback_data = `Controler_Platzhalter_3_Add_SmallPlus`
+                                msg.message.reply_markup.inline_keyboard[i][1].text = newi18n.translate('de', `controler.Math.SmallPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `Controler_Platzhalter_3_Static_0`
+                                let Text = newi18n.translate('de', `controler.Static.B`)
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${Text} 0`;
+                                msg.message.reply_markup.inline_keyboard[i][3].callback_data = `Controler_Platzhalter_3_Add_SmallMinus`
+                                msg.message.reply_markup.inline_keyboard[i][3].text = newi18n.translate('de', `controler.Math.SmallMinus`)
+                                msg.message.reply_markup.inline_keyboard[i][4].callback_data = `Controler_Platzhalter_3_Add_BigMinus`
+                                msg.message.reply_markup.inline_keyboard[i][4].text = newi18n.translate('de', `controler.Math.BigMinus`)
+                            }
+                        }
+                    }
+                    if(AvaibleModes[NewPointer] === "White"){
+                        if(callback_data[0] === "Controler" && callback_data[1] === "Platzhalter"){
+                            if(callback_data[2] === "1"){
+                                msg.message.reply_markup.inline_keyboard[i][0].callback_data = `Controler_Platzhalter_1_Add_BigPlus`
+                                msg.message.reply_markup.inline_keyboard[i][0].text = newi18n.translate('de', `controler.Math.BigPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][1].callback_data = `Controler_Platzhalter_1_Add_SmallPlus`
+                                msg.message.reply_markup.inline_keyboard[i][1].text = newi18n.translate('de', `controler.Math.SmallPlus`)
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `Controler_Platzhalter_1_White_0`
+                                let Text = newi18n.translate('de', `controler.White.W`)
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${Text} 0`;
+                                msg.message.reply_markup.inline_keyboard[i][3].callback_data = `Controler_Platzhalter_1_Add_SmallMinus`
+                                msg.message.reply_markup.inline_keyboard[i][3].text = newi18n.translate('de', `controler.Math.SmallMinus`)
+                                msg.message.reply_markup.inline_keyboard[i][4].callback_data = `Controler_Platzhalter_1_Add_BigMinus`
+                                msg.message.reply_markup.inline_keyboard[i][4].text = newi18n.translate('de', `controler.Math.BigMinus`)
+                            }
+                            if(callback_data[2] === "2"){
+                                for (let y = 0; y < msg.message.reply_markup.inline_keyboard[i].length; y++) {
+                                    msg.message.reply_markup.inline_keyboard[i][y].callback_data = `Controler_Platzhalter_2`
+                                    msg.message.reply_markup.inline_keyboard[i][y].text = newi18n.translate('de', `controler.Platzhalter`);
+                                }
+                            }
+                            if(callback_data[2] === "3"){
+                                for (let y = 0; y < msg.message.reply_markup.inline_keyboard[i].length; y++) {
+                                    msg.message.reply_markup.inline_keyboard[i][y].callback_data = `Controler_Platzhalter_3`
+                                    msg.message.reply_markup.inline_keyboard[i][y].text = newi18n.translate('de', `controler.Platzhalter`);
+                                }
+                            }
+                        }
+                    }
                 });
+
+                let Message = msg.message.text;
+                let replyMarkup = bot.inlineKeyboard(msg.message.reply_markup.inline_keyboard)
+                if ('inline_message_id' in msg) {
+                    bot.editMessageText(
+                        {inlineMsgId: inlineId}, Message,
+                        {parseMode: 'html', replyMarkup}
+                    ).catch(error => console.log('Error:', error));
+                }else{
+                    bot.editMessageText(
+                        {chatId: chatId, messageId: messageId}, Message,
+                        {parseMode: 'html', replyMarkup}
+                    ).catch(error => console.log('Error:', error));
+                }
+            }
+
+            if(data[1] === "Platzhalter"){
+                let AvaibleModes = ['RGB','Static','White'];
+                let AvaibleMath = {
+                    BigPlus: 50,
+                    SmallPlus: 15,
+                    SmallMinus: -15,
+                    BigMinus: -50
+                }
+                msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
+                    let callback_data = ButtonArray[0].callback_data.split("_");
+                    if(callback_data[0] === "Controler" && callback_data[1] === "Platzhalter"){
+                        if(callback_data[2] === "1"){
+                            if(data[3] === "Add"){
+                                let Add_To_Number = 0;
+                                if(data[4] === "BigPlus"){
+                                    Add_To_Number = AvaibleMath.BigPlus
+                                }else{
+                                    Add_To_Number = AvaibleMath.SmallPlus
+                                }
+                                let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
+                                let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${newi18n.translate('de', `controler.Static.R`)} ${result}`
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `${callback_data[0]}${callback_data[1]}${callback_data[2]}${callback_data[3]}_${result}`
+                            }
+                        }
+                        console.log(msg.message.reply_markup.inline_keyboard[i][2].text)
+                    }
+                })
+
                 let Message = msg.message.text;
                 let replyMarkup = bot.inlineKeyboard(msg.message.reply_markup.inline_keyboard)
                 if ('inline_message_id' in msg) {
@@ -410,4 +552,18 @@ function TimeFormat(seconds){
  */
 function BoolToString(boolean){
     return newi18n.translate('de', `Transform.${boolean}`)
+}
+/**
+ * This function will check if value is below 255 and above or equal 0
+ * @param {Number} Number
+ * @returns {Number} RGB Save Number
+ */
+function Check_RGBValue(Number){
+    if(Number >= 255){
+        return 255
+    }else if(Number <= 0){
+        return 0
+    }else{
+        return Number
+    }
 }

@@ -26,6 +26,20 @@
             "Static": "Modus: Statisches RGB",
             "White": "Modus: Beleuchtung Weiß"
         },
+        "Static": {
+            "R": "Rot",
+            "G": "Grün",
+            "B": "Blau"
+        },
+        "White": {
+            "W": "Weiß"
+        },
+        "Math": {
+            "SmallPlus": "+ 15",
+            "BigPlus": "+ 50",
+            "SmallMinus": "- 15",
+            "BigMinus": "- 50"
+        },
         "Platzhalter": "‎",
         "Save": "Übernehmen",
         "Back": "⏪ Zurück"
