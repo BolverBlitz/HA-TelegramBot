@@ -262,6 +262,9 @@ bot.on('callbackQuery', (msg) => {
                                 bot.inlineButton(newi18n.translate('de', `PlugMenü.${Plug[0].state}`), {callback: `Plugs_Switch_${data[2]}_${!Plug[0].state}`})
                             ],
                             [
+                                bot.inlineButton(newi18n.translate('de', `PlugMenü.Refresh`), {callback: `Plugs_Menu_${data[2]}`})
+                            ],
+                            [
                                 bot.inlineButton(newi18n.translate('de', 'PlugMenü.Back'), {callback: `/plugscallback`}),
                             ]
                         ]);
@@ -296,6 +299,9 @@ bot.on('callbackQuery', (msg) => {
                                 let replyMarkup = bot.inlineKeyboard([
                                     [
                                         bot.inlineButton(newi18n.translate('de', `PlugMenü.${Plug[0].state}`), {callback: `Plugs_Switch_${data[2]}_${!Plug[0].state}`})
+                                    ],
+                                    [
+                                        bot.inlineButton(newi18n.translate('de', `PlugMenü.Refresh`), {callback: `Plugs_Menu_${data[2]}`})
                                     ],
                                     [
                                         bot.inlineButton(newi18n.translate('de', 'PlugMenü.Back'), {callback: `/plugscallback`}),
