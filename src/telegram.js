@@ -504,7 +504,6 @@ bot.on('callbackQuery', (msg) => {
                                 }else{
                                     Add_To_Number = AvaibleMath.BigMinus
                                 }
-                                console.log(Add_To_Number)
                                 let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
                                 let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
                                 let Color_Text;
@@ -529,7 +528,6 @@ bot.on('callbackQuery', (msg) => {
                                 }else{
                                     Add_To_Number = AvaibleMath.BigMinus
                                 }
-                                console.log(Add_To_Number)
                                 let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
                                 let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
                                 msg.message.reply_markup.inline_keyboard[i][2].text = `${newi18n.translate('de', `controler.Static.G`)} ${result}`
@@ -548,14 +546,12 @@ bot.on('callbackQuery', (msg) => {
                                 }else{
                                     Add_To_Number = AvaibleMath.BigMinus
                                 }
-                                console.log(Add_To_Number)
                                 let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
                                 let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
                                 msg.message.reply_markup.inline_keyboard[i][2].text = `${newi18n.translate('de', `controler.Static.B`)} ${result}`
                                 msg.message.reply_markup.inline_keyboard[i][2].callback_data = `${callback_data[0]}_${callback_data[1]}_${callback_data[2]}_${callback_data[3]}_${result}`
                             }
                         }
-                        console.log(msg.message.reply_markup.inline_keyboard[i][2].text)
                     }
                 })
 
@@ -572,6 +568,10 @@ bot.on('callbackQuery', (msg) => {
                         {parseMode: 'html', replyMarkup}
                     ).catch(error => console.log('Error:', error));
                 }
+            }
+
+            if(data[1] === "Save"){
+                console.log("Saved")
             }
         }
     }
