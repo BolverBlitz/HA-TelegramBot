@@ -492,18 +492,67 @@ bot.on('callbackQuery', (msg) => {
                 msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
                     let callback_data = ButtonArray[0].callback_data.split("_");
                     if(callback_data[0] === "Controler" && callback_data[1] === "Platzhalter"){
-                        if(callback_data[2] === "1"){
+                        if(callback_data[2] === "1" && data[2] === "1"){
                             if(data[3] === "Add"){
                                 let Add_To_Number = 0;
                                 if(data[4] === "BigPlus"){
                                     Add_To_Number = AvaibleMath.BigPlus
-                                }else{
+                                }else if(data[4] === "SmallPlus"){
                                     Add_To_Number = AvaibleMath.SmallPlus
+                                }else if(data[4] === "SmallMinus"){
+                                    Add_To_Number = AvaibleMath.SmallMinus
+                                }else{
+                                    Add_To_Number = AvaibleMath.BigMinus
                                 }
+                                console.log(Add_To_Number)
                                 let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
                                 let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
-                                msg.message.reply_markup.inline_keyboard[i][2].text = `${newi18n.translate('de', `controler.Static.R`)} ${result}`
-                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `${callback_data[0]}${callback_data[1]}${callback_data[2]}${callback_data[3]}_${result}`
+                                let Color_Text;
+                                if(oldText === newi18n.translate('de', `controler.Static.R`)){
+                                    Color_Text = newi18n.translate('de', `controler.Static.R`);
+                                }else{
+                                    Color_Text = newi18n.translate('de', `controler.White.W`);
+                                }
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${Color_Text} ${result}`
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `${callback_data[0]}_${callback_data[1]}_${callback_data[2]}_${callback_data[3]}_${result}`
+                            }
+                        }
+                        if(callback_data[2] === "2" && data[2] === "2"){
+                            if(data[3] === "Add"){
+                                let Add_To_Number = 0;
+                                if(data[4] === "BigPlus"){
+                                    Add_To_Number = AvaibleMath.BigPlus
+                                }else if(data[4] === "SmallPlus"){
+                                    Add_To_Number = AvaibleMath.SmallPlus
+                                }else if(data[4] === "SmallMinus"){
+                                    Add_To_Number = AvaibleMath.SmallMinus
+                                }else{
+                                    Add_To_Number = AvaibleMath.BigMinus
+                                }
+                                console.log(Add_To_Number)
+                                let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
+                                let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${newi18n.translate('de', `controler.Static.G`)} ${result}`
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `${callback_data[0]}_${callback_data[1]}_${callback_data[2]}_${callback_data[3]}_${result}`
+                            }
+                        }
+                        if(callback_data[2] === "3" && data[2] === "3"){
+                            if(data[3] === "Add"){
+                                let Add_To_Number = 0;
+                                if(data[4] === "BigPlus"){
+                                    Add_To_Number = AvaibleMath.BigPlus
+                                }else if(data[4] === "SmallPlus"){
+                                    Add_To_Number = AvaibleMath.SmallPlus
+                                }else if(data[4] === "SmallMinus"){
+                                    Add_To_Number = AvaibleMath.SmallMinus
+                                }else{
+                                    Add_To_Number = AvaibleMath.BigMinus
+                                }
+                                console.log(Add_To_Number)
+                                let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
+                                let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
+                                msg.message.reply_markup.inline_keyboard[i][2].text = `${newi18n.translate('de', `controler.Static.B`)} ${result}`
+                                msg.message.reply_markup.inline_keyboard[i][2].callback_data = `${callback_data[0]}_${callback_data[1]}_${callback_data[2]}_${callback_data[3]}_${result}`
                             }
                         }
                         console.log(msg.message.reply_markup.inline_keyboard[i][2].text)
