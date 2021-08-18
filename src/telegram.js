@@ -513,7 +513,7 @@ bot.on('callbackQuery', (msg) => {
                                 let oldText = msg.message.reply_markup.inline_keyboard[i][2].text.split(" ")
                                 let result = Check_RGBValue(Number(oldText[1]) + Add_To_Number)
                                 let Color_Text;
-                                if(oldText === newi18n.translate('de', `controler.Static.R`)){
+                                if(oldText[0] === newi18n.translate('de', `controler.Static.R`)){
                                     Color_Text = newi18n.translate('de', `controler.Static.R`);
                                 }else{
                                     Color_Text = newi18n.translate('de', `controler.White.W`);
@@ -577,7 +577,39 @@ bot.on('callbackQuery', (msg) => {
             }
 
             if(data[1] === "Save"){
-                console.log("Saved")
+                let Active_Plugs = [];
+                msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
+                    let callback_data = ButtonArray[0].callback_data.split("_");
+                    if(callback_data[0] === "Controler" && callback_data[1] === "Button"){
+                        if(callback_data[3] === "1"){
+                             Active_Plugs.push(callback_data[2])
+                        }
+                    }
+                });
+                let Mode = "";
+                let RGB_Color = [];
+                let Color_W;
+                msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
+                    let callback_data = ButtonArray[0].callback_data.split("_");
+                    if(callback_data[0] === "Controler" && callback_data[1] === "Modus"){
+                        Mode = msg.message.reply_markup.inline_keyboard[i][0].callback_data.split("_")[2]
+                    }
+
+                    if(callback_data[0] === "Controler" && callback_data[1] === "Platzhalter"){
+                        if(msg.message.reply_markup.inline_keyboard[i][2].text.split(" ").includes(newi18n.translate('de', 'controler.White.W'))){
+                            Color_W = msg.message.reply_markup.inline_keyboard[i][2].callback_data.split("_")[4]
+                        }else{
+                            RGB_Color.push(msg.message.reply_markup.inline_keyboard[i][2].callback_data.split("_")[4])
+                        }
+                        
+                    }
+                });
+                console.log(Active_Plugs, Mode, RGB_Color, Color_W)
+                Active_Plugs.map((Plug_ID, i) => {
+                    DB.update.controler.ByID(Plug_ID, Mode, RGB_Color, Color_W).then(function(Update) {
+
+                    });
+                });
             }
         }
     }
