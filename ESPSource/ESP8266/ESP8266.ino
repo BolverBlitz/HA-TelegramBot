@@ -1,6 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUDP.h>
+#include <ESP8266HTTPClient.h>
 #include <Adafruit_NeoPixel.h>
+#include <Arduino_JSON.h>
 
 const char* ssid     = "";
 const char* password = "";
@@ -9,8 +11,12 @@ const char* password = "";
 unsigned long Dualtimestamp;
 unsigned long deltaForF2= 100;  // Zeit Funktionsjump (ms)
 
+unsigned long lastTime = 0;
+unsigned long timerDelay = 2500;
+
 // A UDP instance to let us send and receive packets over UDP
 WiFiUDP Udp;
+String ServerName = "http://192.168.0.80:7337/api/v1/ESP/1";
 
 char packet_buf[1024];
 
@@ -94,11 +100,35 @@ void loop()
     Dualtimestamp= millis();
   }else{
     if ((millis()-Dualtimestamp)>deltaForF2) {
-      for( int i = 0; i < LEDS; i++ )
-        {
-          strip.setPixelColor(i, strip.Color(0,0,0,255));
+      if ((millis() - lastTime) > timerDelay) {
+        if(WiFi.status()== WL_CONNECTED){
+          HTTPClient http;
+          http.begin(ServerName.c_str());
+          int httpResponseCode = http.GET();
+
+          if (httpResponseCode>0) {
+            JSONVar myObject = JSON.parse(http.getString());
+            JSONVar keys = myObject.keys();
+            int r = double(myObject[keys[0]]);
+            int g = double(myObject[keys[1]]);
+            int b = double(myObject[keys[2]]);
+            int w = double(myObject[keys[3]]);
+
+            for( int i = 0; i < LEDS; i++ )
+            {
+              strip.setPixelColor(i, strip.Color(r,g,b,w));
+            }
+            strip.show();
+          } else {
+            Serial.print("Error code: ");
+            Serial.println(httpResponseCode);
+          }
+          http.end();
+        }else{
+          Serial.println("WiFi Disconnected");
         }
-      strip.show();
+        lastTime = millis();
+      }
     }
   }
 }

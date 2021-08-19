@@ -607,7 +607,7 @@ bot.on('callbackQuery', (msg) => {
                 console.log(Active_Plugs, Mode, RGB_Color, Color_W)
                 Active_Plugs.map((Plug_ID, i) => {
                     DB.update.controler.ByID(Plug_ID, Mode, RGB_Color, Color_W).then(function(Update) {
-
+                        
                     });
                 });
             }
