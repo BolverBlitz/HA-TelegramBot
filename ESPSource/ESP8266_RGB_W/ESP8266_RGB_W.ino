@@ -16,6 +16,7 @@ unsigned long timerDelay = 2500;
 
 // A UDP instance to let us send and receive packets over UDP
 WiFiUDP Udp;
+//Chance the number to the controler ID that is in the database!
 String ServerName = "http://192.168.0.80:7337/api/v1/ESP/1";
 
 char packet_buf[1024];
@@ -69,9 +70,9 @@ void loop()
 
   if( noBytes )
   {
-    Serial.print("Received ");
-    Serial.print(noBytes);
-    Serial.print(" bytes\r\n");
+    //Serial.print("Received ");
+    //Serial.print(noBytes);
+    //Serial.print(" bytes\r\n");
     Udp.read(packet_buf, noBytes);
 
     if( noBytes == PACKET_SZ && packet_buf[0] == 0xAA )
@@ -92,7 +93,12 @@ void loop()
         {
           int idx = 1 + ( 3 * i );
 
-          strip.setPixelColor(i, strip.Color(packet_buf[idx], packet_buf[idx+1], packet_buf[idx+2]));
+          //Test if it should be RGB_W
+          if(250 < packet_buf[idx] and 250 < packet_buf[idx+1] and 250 < packet_buf[idx+2]){
+            strip.setPixelColor(i, strip.Color(0,0,0,255));
+          }else{
+            strip.setPixelColor(i, strip.Color(packet_buf[idx], packet_buf[idx+1], packet_buf[idx+2], 0));
+          }
         }
         strip.show();
       }

@@ -26,6 +26,14 @@ router.get("/:Token", (reg, res) => {
                 res.status(200)
 			    res.json({r: Controler[0].r, g: Controler[0].g, b: Controler[0].b, w: 0});
             }
+        }else{
+            if(Controler[0].mode === "White"){
+                res.status(200)
+			    res.json({r: Controler[0].w, g: Controler[0].w, b: Controler[0].w});
+            }else{
+                res.status(200)
+			    res.json({r: Controler[0].r, g: Controler[0].g, b: Controler[0].b});
+            }
         }
     });
 });
