@@ -28,8 +28,14 @@ router.get("/:Token", (reg, res) => {
             }
         }else{
             if(Controler[0].mode === "White"){
+                let SaveWhite = 0
+                if(Number(Controler[0].w) >= 150){
+                    SaveWhite = 150;
+                }else{
+                    SaveWhite = Controler[0].w;
+                }
                 res.status(200)
-			    res.json({r: Controler[0].w, g: Controler[0].w, b: Controler[0].w});
+			    res.json({r: SaveWhite, g: SaveWhite, b: SaveWhite});
             }else{
                 res.status(200)
 			    res.json({r: Controler[0].r, g: Controler[0].g, b: Controler[0].b});
