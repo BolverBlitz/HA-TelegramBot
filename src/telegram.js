@@ -623,10 +623,23 @@ bot.on('callbackQuery', (msg) => {
                         
                     }
                 });
-                console.log(Active_Plugs, Mode, RGB_Color, Color_W)
                 Active_Plugs.map((Plug_ID, i) => {
                     DB.update.controler.ByID(Plug_ID, Mode, RGB_Color, Color_W).then(function(Update) {
-                        
+                        if(Mode === "Static"){
+                            if(RGB_Color[0] === "0" && RGB_Color[1] === "0" && RGB_Color[2] === "0"){
+                                Tasmota.SwitchPlugPower(Plug_ID, false)
+                            }else{
+                                Tasmota.SwitchPlugPower(Plug_ID, true)
+                            }
+                        }
+
+                        if(Mode === "White"){
+                            if(White === "0"){
+                                Tasmota.SwitchPlugPower(Plug_ID, false)
+                            }else{
+                                Tasmota.SwitchPlugPower(Plug_ID, true)
+                            }
+                        }
                     });
                 });
             }
