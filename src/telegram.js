@@ -24,28 +24,47 @@ bot.on(/^\/hauptmenu/i, (msg) => {
         if(msg.message.chat.type === "private"){private = true}
     }
     if(private){
-        let replyMarkup = bot.inlineKeyboard([
-            [
-                bot.inlineButton(newi18n.translate('de', 'Hauptmenu.Knöpfe.Plugs'), {callback: '/plugscallback'}),
-                bot.inlineButton(newi18n.translate('de', 'Hauptmenu.Knöpfe.Controler'), {callback: '/controler'})
-            ],
-            [
-                bot.inlineButton(newi18n.translate('de', 'Hauptmenu.Knöpfe.Stats'), {callback: `/stats`}),
-            ]
-        ]);
+        DB.get.user.check.IsAdmin(msg.from.id).then(function(AdminState) {
+            if(AdminState.rows[0]){
+                if(AdminState.rows[0].admin === true){
+                    let replyMarkup = bot.inlineKeyboard([
+                        [
+                            bot.inlineButton(newi18n.translate('de', 'Hauptmenu.Knöpfe.Plugs'), {callback: '/plugscallback'}),
+                            bot.inlineButton(newi18n.translate('de', 'Hauptmenu.Knöpfe.Controler'), {callback: '/controler'})
+                        ],
+                        [
+                            bot.inlineButton(newi18n.translate('de', 'Hauptmenu.Knöpfe.Stats'), {callback: `/stats`}),
+                        ]
+                    ]);
+            
+                    let username;
+                    if ('username' in msg.from) {
+                         username = msg.from.username.toString();
+                    }else{
+                        username = msg.from.first_name.toString();
+                    }
+            
+                    if(msg.chat){
+                        return bot.sendMessage(msg.chat.id, newi18n.translate('de', 'Hauptmenu.Text', {Username: username}), {parseMode: 'html', replyMarkup});
+                    }else{
+                        return bot.sendMessage(msg.message.chat.id, newi18n.translate('de', 'Hauptmenu.Text', {Username: username}), {parseMode: 'html', replyMarkup});
+                    }
 
-        let username;
-        if ('username' in msg.from) {
-             username = msg.from.username.toString();
-        }else{
-            username = msg.from.first_name.toString();
-        }
-
-        if(msg.chat){
-            return bot.sendMessage(msg.chat.id, newi18n.translate('de', 'Hauptmenu.Text', {Username: username}), {parseMode: 'html', replyMarkup});
-        }else{
-            return bot.sendMessage(msg.message.chat.id, newi18n.translate('de', 'Hauptmenu.Text', {Username: username}), {parseMode: 'html', replyMarkup});
-        }
+                }else{
+                    if(msg.chat){
+                        return bot.sendMessage(msg.chat.id, newi18n.translate('de', 'Hauptmenu.NoPermission'));
+                    }else{
+                        return bot.sendMessage(msg.message.chat.id, newi18n.translate('de', 'Hauptmenu.NoPermission'));
+                    }
+                }
+            }else{
+                if(msg.chat){
+                    return bot.sendMessage(msg.chat.id, newi18n.translate('de', 'Hauptmenu.NoPermission'));
+                }else{
+                    return bot.sendMessage(msg.message.chat.id, newi18n.translate('de', 'Hauptmenu.NoPermission'));
+                }
+            }
+        });
     }else{
         if(msg.chat){
             return bot.sendMessage(msg.chat.id, newi18n.translate('de', 'Error.NotPrivate'));

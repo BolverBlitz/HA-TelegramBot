@@ -2,6 +2,7 @@
     "WellcomeMSG": "Marc HA Bot",
     "Hauptmenu": {
         "Text": "Hallo {{Username}}, wähle was du einstellen möchtest",
+        "NoPermission": "Diese Funktion steht Ihnen nicht zur verfügung.",
         "Knöpfe": {
             "Plugs": "Steckdosen",
             "Controler": "RGB",
