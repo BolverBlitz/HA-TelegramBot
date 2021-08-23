@@ -632,13 +632,17 @@ bot.on('callbackQuery', (msg) => {
                                 Tasmota.SwitchPlugPower(Plug_ID, true)
                             }
                         }
-
+                        
                         if(Mode === "White"){
-                            if(White === "0"){
+                            if(Color_W === "0"){
                                 Tasmota.SwitchPlugPower(Plug_ID, false)
                             }else{
                                 Tasmota.SwitchPlugPower(Plug_ID, true)
                             }
+                        }
+                        
+                        if(Plug_ID.length === i){
+                            bot.answerCallbackQuery(msg.id);
                         }
                     });
                 });
