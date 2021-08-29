@@ -1,59 +1,80 @@
-var PORT = 1233;
- var HOST = '192.168.0.80';
- 
- var PORTSend = 1234
- var HOSTSend = '192.168.0.210'
- 
- var PORTSend2 = 1234
- var HOSTSend2 = '192.168.0.211'
 
- var PORTSend3 = 1234
- var HOSTSend3 = '192.168.0.212'
+require('dotenv').config();
+const fs = require('fs');
+const util = require('util')
+const DB = require('./lib/db/postgres');
+const Tasmota = require('./lib/plug_ctl/tasmota');
+const dgram = require('dgram');
+const server = dgram.createSocket('udp4');
 
- var dgram = require('dgram');
- var server = dgram.createSocket('udp4');
- var sum = 0;
- var Ausschlag;
- 
- function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+const PORT = process.env.Multicast_Port || 1233;
+const HOST = process.env.Multicast_Host || '192.168.0.80';
 
- server.on('listening', function() {
-     var address = server.address();
-     console.log('UDP Server listening on ' + address.address + ':' + address.port);
- });
+let Controler_Cache = []
+let LastDataTime = 0;
+let DataNow = false;
+let FrameCounter = 0;
 
- server.on('message', function(message, remote) {
-     var Payload = Array.from(message);
-	 var LLT = Object.values(message);
-	 var buf = Buffer.from(LLT); 
-	 var Hight = "";
+server.on('listening', function() {
+    var address = server.address();
+    console.log('UDP Server listening on ' + address.address + ':' + address.port);
+});
 
-	 
-	 for (var i = 0; i < LLT.length; i++) {
-		sum += LLT[i]
-	}
-	//let AusschlagNUM = Math.floor((sum-26530)/1000) //-26530 Für 12% Weiß
-	let AusschlagNUM = Math.floor((sum-13000)/1000) //Colore -12000
-	for (var i = 0; i < AusschlagNUM; i++) {
-		Ausschlag = Ausschlag + ".";
-	}
-	console.log(Ausschlag)
-	 sum = 0;
-	 Ausschlag = "";
-	 
+server.on('message', function(message, remote) {
+	var LLT = Object.values(message);
+	var buf = Buffer.from(LLT); 
+
+	FrameCounter++;
 
     //Need to check if no undefined here.
-	server.send(buf, 0, buf.length, PORTSend3, HOSTSend3, function(err, bytes) {
-		if (err) throw err;
-	});
-	server.send(buf, 0, buf.length, PORTSend2, HOSTSend2, function(err, bytes) {
-		if (err) throw err;
-	});
-	server.send(buf, 0, buf.length, PORTSend, HOSTSend, function(err, bytes) {
-		if (err) throw err;
-	});
- });
+	Controler_Cache.map(Controler => {
+		if(Controler.mode === "RGB" || process.env.Multicast_ModeOverride === "true"){
+			//console.log("Send to: " + Controler.rgbcontrolerip)
+			server.send(buf, 0, buf.length, 1234, Controler.rgbcontrolerip, function(err, bytes) {
+				if (err) throw err;
+			});
+		}
+	})
+	LastDataTime = new Date().getTime()
+	if(DataNow === false){
+		Controler_Cache.map(Controler => {
+			if(Controler.mode === "RGB" && Controler.state === false || Controler.state === "false"){
+				console.log(`Send ON Event to: (${Controler.controlerid}) ${Controler.name}`)
+				Tasmota.SwitchPlugPower(Controler.controlerid, true)
+			}
+		})
+		DataNow = true
+	}
+});
+setInterval(function(){
+	ConstantRun();
+}, process.env.Multicast_RefreshInterval || 5000);
 
- server.bind(PORT, HOST);
+if(process.env.Multicast_Log_FPS === "true"){
+	setInterval(function(){
+		if(FrameCounter > 0){
+			console.log(`FPS: ${FrameCounter} - MS: ${(1000/FrameCounter).toFixed(2)}`)
+			FrameCounter = 0;
+		}
+	}, 1000);
+}
+
+function ConstantRun(){
+	DB.get.controler.AllWithPlugState().then(function(Controlers) {
+		Controler_Cache = Controlers.rows
+		if(new Date().getTime() - LastDataTime >= 5000 && DataNow === true){
+			Controler_Cache.map(Controler => {
+				if(Controler.mode === "RGB" && Controler.state === true || Controler.state === "true"){
+					console.log(`Send OFF Event to: (${Controler.controlerid}) ${Controler.name}`)
+					Tasmota.SwitchPlugPower(Controler.controlerid, false)
+				}
+			})
+			DataNow = false
+		}
+	});
+}
+
+ConstantRun();
+server.bind(PORT, HOST);
+ 
+ 

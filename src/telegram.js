@@ -618,7 +618,7 @@ bot.on('callbackQuery', (msg) => {
                         if(msg.message.reply_markup.inline_keyboard[i][2].text.split(" ").includes(newi18n.translate('de', 'controler.White.W'))){
                             Color_W = msg.message.reply_markup.inline_keyboard[i][2].callback_data.split("_")[4]
                         }else{
-                            RGB_Color.push(msg.message.reply_markup.inline_keyboard[i][2].callback_data.split("_")[4])
+                            RGB_Color.push(msg.message.reply_markup.inline_keyboard[i][2].callback_data.split("_")[4] || 0)
                         }
                         
                     }

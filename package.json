@@ -1,6 +1,6 @@
 {
   "name": "ha-telegrambot",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "BolverBlitz LED-HausBot",
   "main": "index.js",
   "scripts": {
