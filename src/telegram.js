@@ -267,6 +267,7 @@ bot.on('callbackQuery', (msg) => {
         if(data[0] === 'delete'){
             if(data[1] === 'this'){
                 //delete message here!
+                bot.answerCallbackQuery(msg.id);
                 bot.deleteMessage(chatId, messageId).catch(error => console.log('Error:', error));
             }
         }
@@ -274,6 +275,7 @@ bot.on('callbackQuery', (msg) => {
         if(data[0] === 'Plugs'){
             if(data[1] === 'Menu'){
                 Tasmota.UpdatePlugPower(data[2]).then(function(Update) {
+                    bot.answerCallbackQuery(msg.id);
                     DB.get.plugs.ByID(data[2]).then(function(Plug) {
 
                         let replyMarkup = bot.inlineKeyboard([
@@ -306,6 +308,7 @@ bot.on('callbackQuery', (msg) => {
             }
             if(data[1] === 'Switch'){
                 Tasmota.SwitchPlugPower(data[2], data[3]).then(function(Switch) {
+                    bot.answerCallbackQuery(msg.id);
                     if(Switch === "Not_allowed"){
                         bot.answerCallbackQuery(msg.id,{
                             text: newi18n.translate('de', `PlugMenü.${Switch}`),
@@ -348,6 +351,7 @@ bot.on('callbackQuery', (msg) => {
         }
 
         if(data[0] === "Controler"){
+            bot.answerCallbackQuery(msg.id);
             if(data[1] === "Button"){
                 msg.message.reply_markup.inline_keyboard.map((ButtonArray, i) => {
                     let callback_data = ButtonArray[0].callback_data.split("_");
@@ -381,6 +385,7 @@ bot.on('callbackQuery', (msg) => {
             }
 
             if(data[1] === "Modus"){
+                bot.answerCallbackQuery(msg.id);
                 let AvaibleModes = ['RGB','Static','White'];
                 let NewPointer = AvaibleModes.indexOf(data[2]) + 1
                 if(NewPointer >= AvaibleModes.length){
@@ -507,6 +512,7 @@ bot.on('callbackQuery', (msg) => {
             }
 
             if(data[1] === "Platzhalter"){
+                bot.answerCallbackQuery(msg.id);
                 let AvaibleModes = ['RGB','Static','White'];
                 let AvaibleMath = {
                     BigPlus: 50,
