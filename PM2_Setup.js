@@ -10,7 +10,7 @@ pm2.connect(function(err) {
     pm2.list((err, list) => {
       let substractor = 0
       list.map(Instance => {
-        if(Instance.name === "HA-Bot" || HA-Bot === "RGB-Proxy")
+        if(Instance.name === "HA-Bot" || Instance.name === "RGB-Proxy")
         substractor++
         console.log(`Started ${Instance.name} with status ${Instance.pm2_env.status}`)
       })
