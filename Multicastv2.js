@@ -14,6 +14,7 @@ let Controler_Cache = []
 let LastDataTime = 0;
 let DataNow = false;
 let FrameCounter = 0;
+let AddedRuntimeDelay = 0;
 let PlugUpdateBlocked = false;
 
 server.on('listening', function() {
@@ -22,6 +23,7 @@ server.on('listening', function() {
 });
 
 server.on('message', function(message, remote) {
+	let Start_Time_Delay_Messure = process.hrtime.bigint()
 	var LLT = Object.values(message);
 	var buf = Buffer.from(LLT); 
 
@@ -51,6 +53,7 @@ server.on('message', function(message, remote) {
 	if(DataNow === false){
 		DataNow = true;
 	}
+	AddedRuntimeDelay = Number(process.hrtime.bigint()) - Number(Start_Time_Delay_Messure)
 });
 setInterval(function(){
 	ConstantRun();
@@ -59,8 +62,9 @@ setInterval(function(){
 if(process.env.Multicast_Log_FPS === "true"){
 	setInterval(function(){
 		if(FrameCounter > 0){
-			console.log(`FPS: ${FrameCounter} - MS: ${(1000/FrameCounter).toFixed(2)}`)
+			console.log(`FPS: ${FrameCounter} - MS: ${(1000/FrameCounter).toFixed(2)} - Delay: ${(AddedRuntimeDelay/FrameCounter).toFixed(0)}ns`)
 			FrameCounter = 0;
+			AddedRuntimeDelay = 0;
 		}
 	}, 1000);
 }
