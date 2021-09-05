@@ -14,6 +14,7 @@ let Controler_Cache = []
 let LastDataTime = 0;
 let DataNow = false;
 let FrameCounter = 0;
+let PlugUpdateBlocked = false;
 
 server.on('listening', function() {
     var address = server.address();
@@ -36,14 +37,19 @@ server.on('message', function(message, remote) {
 		}
 	})
 	LastDataTime = new Date().getTime()
-	if(DataNow === false){
+
+	if(PlugUpdateBlocked === false){
 		Controler_Cache.map(Controler => {
 			if(Controler.mode === "RGB" && Controler.state === false || Controler.state === "false"){
 				console.log(`Send ON Event to: (${Controler.controlerid}) ${Controler.name}`)
 				Tasmota.SwitchPlugPower(Controler.controlerid, true)
 			}
 		})
-		DataNow = true
+		PlugUpdateBlocked = true;
+	}
+	
+	if(DataNow === false){
+		DataNow = true;
 	}
 });
 setInterval(function(){
@@ -62,6 +68,7 @@ if(process.env.Multicast_Log_FPS === "true"){
 function ConstantRun(){
 	DB.get.controler.AllWithPlugState().then(function(Controlers) {
 		Controler_Cache = Controlers.rows
+		PlugUpdateBlocked = false;
 		if(new Date().getTime() - LastDataTime >= 5000 && DataNow === true){
 			Controler_Cache.map(Controler => {
 				if(Controler.mode === "RGB" && Controler.state === true || Controler.state === "true"){
