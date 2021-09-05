@@ -8,9 +8,13 @@ pm2.connect(function(err) {
   
   Promise.all([newPM2_Instance('./index.js', 'HA-Bot'), newPM2_Instance('./Multicastv2.js', 'RGB-Proxy')]).then((values) => {
     pm2.list((err, list) => {
+      let substractor = 0
       list.map(Instance => {
+        if(Instance.name === "HA-Bot" || HA-Bot === "RGB-Proxy")
+        substractor++
         console.log(`Started ${Instance.name} with status ${Instance.pm2_env.status}`)
       })
+      console.log(`There are ${list.length - substractor} other PM2 prosesses on this computer`)
         pm2.disconnect()
         process.exit(2)
     })
