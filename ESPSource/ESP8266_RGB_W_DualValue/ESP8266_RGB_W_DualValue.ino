@@ -4,8 +4,8 @@
 #include <Adafruit_NeoPixel.h>
 #include <Arduino_JSON.h>
 
-const char* ssid     = "";
-const char* password = "";
+const char* ssid     = "NewHyperion-IoT";
+const char* password = "WSL3Xm1xZBrUdM42U07PI6";
 
 //Dual
 unsigned long Dualtimestamp;
@@ -17,7 +17,7 @@ unsigned long timerDelay = 2500;
 // A UDP instance to let us send and receive packets over UDP
 WiFiUDP Udp;
 //Chance the number to the controler ID that is in the database!
-String ServerName = "http://192.168.0.80:7337/api/v1/ESP/1";
+String ServerName = "http://192.168.0.119:7337/api/v1/ESP/4";
 
 char packet_buf[1024];
 
