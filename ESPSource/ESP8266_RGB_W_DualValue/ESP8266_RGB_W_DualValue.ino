@@ -4,8 +4,8 @@
 #include <Adafruit_NeoPixel.h>
 #include <Arduino_JSON.h>
 
-const char* ssid     = "NewHyperion-IoT";
-const char* password = "WSL3Xm1xZBrUdM42U07PI6";
+const char* ssid     = "";
+const char* password = "";
 
 //Dual
 unsigned long Dualtimestamp;
@@ -89,7 +89,7 @@ void loop()
       //Test if valid write packet
       if( ( ( (unsigned short)packet_buf[checksum_0] << 8 ) | packet_buf[checksum_1] ) == sum )
       {
-        for( int i = 0; i < LEDS/2; i++ )
+        for( int i = 0; i < LEDS; i++ )
         {
           int idx = 1 + ( 3 * i );
 
