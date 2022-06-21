@@ -1,9 +1,8 @@
-require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const DB = require('../../lib/db/postgres');
 
-const PluginName = "UptimeRobot";
+const PluginName = "ESP_Controler";
 const PluginRequirements = [];
 const PluginVersion = "0.0.2";
 const PluginAuthor = "BolverBlitz";
