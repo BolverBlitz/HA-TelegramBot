@@ -22,6 +22,7 @@
     "express-csp-header": "^4.1.0",
     "express-rate-limit": "^5.2.6",
     "express-useragent": "^1.0.15",
+    "fritzapi": "^0.13.0",
     "fs": "0.0.1-security",
     "helmet": "^4.1.0",
     "influxdb-v2": "^1.0.0",
