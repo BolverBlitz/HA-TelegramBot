@@ -1,5 +1,5 @@
 const app = require('./app');
-//const t = require('./telegram')
+const t = require('./telegram')
 const plugins = require('../plugins')
 
 const port = process.env.PORT || 5000;
