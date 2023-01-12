@@ -650,7 +650,7 @@ bot.on('callbackQuery', (msg) => {
                         if(Plug_ID.length === i){
                             bot.answerCallbackQuery(msg.id);
                         }
-                    });
+                    }).catch(error => console.log('Error:', error));
                 });
             }
         }
